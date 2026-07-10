@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -17,7 +17,9 @@ def home():
 
 
 @app.post("/summarize")
-async def summarize():
+async def summarize(file: UploadFile = File(...)):
     return {
-        "summary": "🎉 Congratulations! Your React frontend is now connected to FastAPI."
+        "filename": file.filename,
+        "content_type": file.content_type,
+        "message": "🎉 File received successfully!"
     }

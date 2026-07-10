@@ -14,8 +14,25 @@ function App() {
       alert("Please choose a document first.");
       return;
     }
+     const formData = new FormData();
+  formData.append("file", selectedFile);
 
-    alert(`Generating summary for: ${selectedFile.name}`);
+  try {
+    const response = await fetch("http://127.0.0.1:8000/summarize", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    alert(
+      `✅ ${data.message}\n\nFile: ${data.filename}\nType: ${data.content_type}`
+    );
+  } catch (error) {
+    console.error(error);
+    alert("❌ Failed to upload the file.");
+  }
+
   };
 
   return (
