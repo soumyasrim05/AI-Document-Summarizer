@@ -8,6 +8,7 @@ import SummaryBox from "./components/SummaryBox";
 function App() {
 
   const [selectedFile, setSelectedFile] = useState(null);
+  const [summary, setSummary] = useState("");
 
   const handleGenerate = async () => {
     if (!selectedFile) {
@@ -25,9 +26,8 @@ function App() {
 
     const data = await response.json();
 
-    alert(
-      `✅ ${data.message}\n\nFile: ${data.filename}\nType: ${data.content_type}`
-    );
+    setSummary(data.summary);
+
   } catch (error) {
     console.error(error);
     alert("❌ Failed to upload the file.");
@@ -52,7 +52,7 @@ function App() {
         Generate Summary
       </button>
 
-      <SummaryBox />
+      <SummaryBox summary={summary} />
 
     </div>
   );
