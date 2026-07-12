@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from docx import Document
 from io import BytesIO
 from transformers import pipeline
+import fitz
+
 
 
 app = FastAPI()
@@ -53,39 +55,64 @@ async def summarize(file: UploadFile = File(...)):
     # Read uploaded file into memory
     file_bytes = await file.read()
 
-    # Open DOCX document
-    document = Document(BytesIO(file_bytes))
-
-    # Extract all paragraphs
-    text = "\n".join(
+    # Extract text based on file type
+    if file.filename.lower().endswith(".docx"):
+     document = Document(BytesIO(file_bytes))
+     text = "\n".join(
         paragraph.text
         for paragraph in document.paragraphs
         if paragraph.text.strip()
-        )
+    )
+
+    elif file.filename.lower().endswith(".pdf"):
+      pdf = fitz.open(stream=file_bytes, filetype="pdf")
+      text = ""
+
+      for page in pdf:
+        text += page.get_text()
+
+    else:
+     return {
+        "error": "Unsupported file type. Please upload a DOCX or PDF file."
+    }
+    
     
 
-    # Split the document into chunks
+    # Split document into chunks
     chunks = split_text(text)
-    # Summarize each chunk
+
     summaries = []
 
     for chunk in chunks:
-
-     result = summarizer(
+      result = summarizer(
         chunk,
-        max_length=150,
-        min_length=40,
+        max_length=120,
+        min_length=30,
         do_sample=False
     )
+
     summaries.append(result[0]["summary_text"])
 
-    # Combine all summaries
-    final_summary = "\n\n".join(summaries)
+   # Summarize the summaries again if needed
+    if len(summaries) > 1:
+      combined = " ".join(summaries)
+
+      result = summarizer(
+        combined,
+        max_length=150,
+        min_length=50,
+        do_sample=False
+    )
+
+      final_summary = result[0]["summary_text"]
+    
+    else:
+      final_summary = summaries[0]
 
 
     return { 
-    "filename": file.filename,
-    "summary": final_summary
+      "filename": file.filename,
+      "summary": final_summary
 }
 
     
