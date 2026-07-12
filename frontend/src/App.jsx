@@ -9,14 +9,19 @@ function App() {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [summary, setSummary] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
     if (!selectedFile) {
       alert("Please choose a document first.");
       return;
     }
-     const formData = new FormData();
-  formData.append("file", selectedFile);
+
+    setLoading(true);
+    setSummary("");
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
 
   try {
     const response = await fetch("http://127.0.0.1:8000/summarize", {
@@ -27,9 +32,11 @@ function App() {
     const data = await response.json();
 
     setSummary(data.summary);
+    setLoading(false);
 
   } catch (error) {
     console.error(error);
+    setLoading(false);
     alert("❌ Failed to upload the file.");
   }
 
@@ -46,11 +53,20 @@ function App() {
       />
 
       <button
-        className="generate-btn"
-        onClick={handleGenerate}
-      >
-        Generate Summary
+      className="generate-btn"
+      onClick={handleGenerate}
+      disabled={loading}
+>
+      {loading ? "Generating Summary..." : "Generate Summary"}
       </button>
+
+      {loading && (
+      <p className="loading-text">
+      ⏳ Generating your summary...
+      <br />
+      This may take a few seconds for large documents.
+     </p>
+)}
 
       <SummaryBox summary={summary} />
 

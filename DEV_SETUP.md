@@ -3,6 +3,7 @@
 ## Backend
 
 cd backend
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass 
 .\venv\Scripts\Activate
 uvicorn main:app --reload
 
