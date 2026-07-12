@@ -23,6 +23,26 @@ summarizer = pipeline(
     model=MODEL_NAME
 )
 
+def split_text(text, max_chunk_size=1000):
+    """
+    Split long text into smaller chunks without breaking words.
+    """
+    words = text.split()
+    chunks = []
+    current_chunk = []
+
+    for word in words:
+        current_chunk.append(word)
+
+        if len(" ".join(current_chunk)) >= max_chunk_size:
+            chunks.append(" ".join(current_chunk))
+            current_chunk = []
+
+    if current_chunk:
+        chunks.append(" ".join(current_chunk))
+
+    return chunks
+
 @app.get("/")
 def home():
     return {"message": "Backend is running!"}
@@ -43,17 +63,31 @@ async def summarize(file: UploadFile = File(...)):
         if paragraph.text.strip()
         )
     
-    # Limit input length for the model
-    text = text[:3000]
 
-    result = summarizer(
-    text,
-    max_length=150,
-    min_length=40,
-    do_sample=False
-)
+    # Split the document into chunks
+    chunks = split_text(text)
+    # Summarize each chunk
+    summaries = []
 
-    return {
+    for chunk in chunks:
+
+     result = summarizer(
+        chunk,
+        max_length=150,
+        min_length=40,
+        do_sample=False
+    )
+    summaries.append(result[0]["summary_text"])
+
+    # Combine all summaries
+    final_summary = "\n\n".join(summaries)
+
+
+    return { 
     "filename": file.filename,
-    "summary": result[0]["summary_text"]
+    "summary": final_summary
 }
+
+    
+
+    
