@@ -4,6 +4,7 @@ from docx import Document
 from io import BytesIO
 from transformers import pipeline
 
+
 app = FastAPI()
 
 app.add_middleware(
@@ -14,9 +15,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 MODEL_NAME = "sshleifer/distilbart-cnn-12-6"
-summarizer = pipeline("summarization",
-           model=MODEL_NAME
+
+summarizer = pipeline(
+    "summarization",
+    model=MODEL_NAME
 )
 
 @app.get("/")
@@ -38,6 +42,7 @@ async def summarize(file: UploadFile = File(...)):
         for paragraph in document.paragraphs
         if paragraph.text.strip()
         )
+    
     # Limit input length for the model
     text = text[:3000]
 
@@ -45,10 +50,8 @@ async def summarize(file: UploadFile = File(...)):
     text,
     max_length=150,
     min_length=40,
-    do_sample=False,
-    )
-
-    
+    do_sample=False
+)
 
     return {
     "filename": file.filename,
