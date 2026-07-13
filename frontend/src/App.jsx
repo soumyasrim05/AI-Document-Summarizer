@@ -9,7 +9,9 @@ function App() {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [summary, setSummary] = useState("");
+  const [docInfo, setDocInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+  
 
   const handleGenerate = async () => {
     if (!selectedFile) {
@@ -32,6 +34,7 @@ function App() {
     const data = await response.json();
 
     setSummary(data.summary);
+    setDocInfo(data);
     setLoading(false);
 
   } catch (error) {
@@ -68,7 +71,10 @@ function App() {
      </p>
 )}
 
-      <SummaryBox summary={summary} />
+      <SummaryBox
+       summary={summary}
+       docInfo={docInfo}
+      />
 
     </div>
   );

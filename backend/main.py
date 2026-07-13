@@ -62,10 +62,13 @@ async def summarize(file: UploadFile = File(...)):
         paragraph.text
         for paragraph in document.paragraphs
         if paragraph.text.strip()
+        
     )
+     page_count = "N/A"
 
     elif file.filename.lower().endswith(".pdf"):
       pdf = fitz.open(stream=file_bytes, filetype="pdf")
+      page_count = len(pdf)
       text = ""
 
       for page in pdf:
@@ -109,10 +112,21 @@ async def summarize(file: UploadFile = File(...)):
     else:
       final_summary = summaries[0]
 
+    
+    word_count = len(text.split())
 
-    return { 
-      "filename": file.filename,
-      "summary": final_summary
+    character_count = len(text)
+
+    file_size = len(file_bytes)
+
+
+    return {
+    "filename": file.filename,
+    "summary": final_summary,
+    "word_count": word_count,
+    "character_count": character_count,
+    "file_size": round(file_size / 1024, 2),   # KB
+    "page_count": page_count
 }
 
     

@@ -43,3 +43,32 @@ button:hover {
   font-weight: 500;
   line-height: 1.6;
 }
+
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 700px;
+  margin: 0 auto 20px;
+}
+
+.copy-btn {
+  background: #5b4df7;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.copy-btn:hover {
+  background: #4638d8;
+}
+
+.summary-box {
+    width: 700px;
+    margin: 30px auto;
+    text-align: left;
+}
