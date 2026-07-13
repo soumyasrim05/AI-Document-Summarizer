@@ -26,22 +26,22 @@ function App() {
     formData.append("file", selectedFile);
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/summarize", {
-      method: "POST",
-      body: formData,
-    });
+   const response = await fetch("http://127.0.0.1:8000/summarize", {
+    method: "POST",
+    body: formData,
+  });
 
-    const data = await response.json();
+   const data = await response.json();
 
-    setSummary(data.summary);
-    setDocInfo(data);
-    setLoading(false);
+   setSummary(data.summary);
+   setDocInfo(data);
 
-  } catch (error) {
-    console.error(error);
-    setLoading(false);
-    alert("❌ Failed to upload the file.");
-  }
+} catch (error) {
+  console.error(error);
+  alert("❌ Failed to upload the file.");
+} finally {
+  setLoading(false);
+}
 
   };
 
@@ -55,26 +55,31 @@ function App() {
         setSelectedFile={setSelectedFile}
       />
 
-      <button
-      className="generate-btn"
-      onClick={handleGenerate}
-      disabled={loading}
+    <button
+     className="generate-btn"
+     onClick={handleGenerate}
+     disabled={loading}
 >
-      {loading ? "Generating Summary..." : "Generate Summary"}
-      </button>
+     {loading ? "Generating Summary..." : "Generate Summary"}
+   </button>
 
-      {loading && (
-      <p className="loading-text">
-      ⏳ Generating your summary...
+{loading && (
+  <div className="loading-container">
+    <div className="spinner"></div>
+
+    <p className="loading-text">
+      Generating your summary...
       <br />
-      This may take a few seconds for large documents.
-     </p>
+      This may take a few seconds.
+    </p>
+  </div>
 )}
 
-      <SummaryBox
-       summary={summary}
-       docInfo={docInfo}
-      />
+<SummaryBox
+  summary={summary}
+  docInfo={docInfo}
+  
+/>
 
     </div>
   );

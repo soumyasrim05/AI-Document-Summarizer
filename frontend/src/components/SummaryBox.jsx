@@ -1,24 +1,50 @@
 function SummaryBox({ summary, docInfo }) {
 
+  const downloadSummary = () => {
+  const element = document.createElement("a");
+
+  const file = new Blob([summary], {
+    type: "text/plain",
+  });
+
+  element.href = URL.createObjectURL(file);
+  element.download = "Summary.txt";
+
+  document.body.appendChild(element);
+  element.click();
+
+  document.body.removeChild(element);
+};
+
   const copySummary = () => {
   navigator.clipboard.writeText(summary);
 
   alert("✅ Summary copied to clipboard!");
   };
+
   return (
     <div className="summary-box">
       <div className="summary-header">
        <h2>Summary</h2>
 
-       {summary && (
-         <button
-           className="copy-btn"
-           onClick={copySummary}
-         >
-           📋 Copy
-         </button>
-      )}
-   </div>
+      {summary && (
+    <div className="action-buttons">
+    <button
+      className="copy-btn"
+      onClick={copySummary}
+    >
+      📋 Copy
+    </button>
+
+    <button
+      className="download-btn"
+      onClick={downloadSummary}
+    >
+      ⬇ Download
+    </button>
+  </div>
+)}
+</div>
 
       {docInfo && (
         <div className="document-info">

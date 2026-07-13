@@ -72,3 +72,36 @@ button:hover {
     margin: 30px auto;
     text-align: left;
 }
+
+
+.loading-container{
+  margin:25px 0;
+  text-align:center;
+}
+
+.spinner{
+  width:45px;
+  height:45px;
+  margin:0 auto 15px;
+
+  border:5px solid #ddd;
+  border-top:5px solid #5b4bff;
+  border-radius:50%;
+
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  0%{
+    transform:rotate(0deg);
+  }
+
+  100%{
+    transform:rotate(360deg);
+  }
+}
+
+.loading-text{
+  color:#555;
+  font-size:16px;
+}
