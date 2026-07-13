@@ -1,12 +1,16 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from docx import Document
 from io import BytesIO
 from transformers import pipeline
 import fitz
+from database import engine
+from models import Base
+from database import SessionLocal
+from models import Summary
 
 
-
+Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 app.add_middleware(
@@ -78,6 +82,30 @@ async def summarize(file: UploadFile = File(...)):
      return {
         "error": "Unsupported file type. Please upload a DOCX or PDF file."
     }
+
+
+@app.get("/history")
+def get_history():
+    db = SessionLocal()
+
+    summaries = db.query(Summary).order_by(Summary.created_at.desc()).all()
+
+    history = []
+
+    for item in summaries:
+        history.append({
+            "id": item.id,
+            "filename": item.filename,
+            "summary": item.summary,
+            "word_count": item.word_count,
+            "character_count": item.character_count,
+            "page_count": item.page_count,
+            "created_at": item.created_at
+        })
+
+    db.close()
+
+    return history
     
     
 
@@ -118,6 +146,20 @@ async def summarize(file: UploadFile = File(...)):
     character_count = len(text)
 
     file_size = len(file_bytes)
+
+    db = SessionLocal()
+
+    new_summary = Summary(
+    filename=file.filename,
+    summary=final_summary,
+    word_count=word_count,
+    character_count=character_count,
+    page_count=page_count
+)
+
+    db.add(new_summary)
+    db.commit()
+    db.close()
 
 
     return {

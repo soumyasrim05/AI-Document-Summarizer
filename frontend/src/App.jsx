@@ -4,6 +4,7 @@ import "./App.css";
 import Header from "./components/Header";
 import UploadBox from "./components/UploadBox";
 import SummaryBox from "./components/SummaryBox";
+import History from "./components/History";
 
 function App() {
 
@@ -45,6 +46,17 @@ function App() {
 
   };
 
+  const handleHistorySelect = (item) => {
+   setSummary(item.summary);
+
+   setDocInfo({
+    filename: item.filename,
+    word_count: item.word_count,
+    character_count: item.character_count,
+    page_count: item.page_count,
+  });
+};
+
   return (
     <div className="container">
 
@@ -81,6 +93,7 @@ function App() {
   
 />
 
+<History onSelectSummary={handleHistorySelect} />
     </div>
   );
 }
