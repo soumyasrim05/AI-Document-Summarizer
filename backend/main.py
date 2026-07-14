@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from docx import Document
 from io import BytesIO
@@ -79,36 +80,13 @@ async def summarize(file: UploadFile = File(...)):
         text += page.get_text()
 
     else:
-     return {
-        "error": "Unsupported file type. Please upload a DOCX or PDF file."
-    }
+     raise HTTPException(
+        status_code=400,
+        detail="Unsupported file type. Please upload a DOCX or PDF file."
+    )
 
 
-@app.get("/history")
-def get_history():
-    db = SessionLocal()
-
-    summaries = db.query(Summary).order_by(Summary.created_at.desc()).all()
-
-    history = []
-
-    for item in summaries:
-        history.append({
-            "id": item.id,
-            "filename": item.filename,
-            "summary": item.summary,
-            "word_count": item.word_count,
-            "character_count": item.character_count,
-            "page_count": item.page_count,
-            "created_at": item.created_at
-        })
-
-    db.close()
-
-    return history
     
-    
-
     # Split document into chunks
     chunks = split_text(text)
 
@@ -173,4 +151,48 @@ def get_history():
 
     
 
+
+
+@app.get("/history")
+def get_history():
+    db = SessionLocal()
+
+    summaries = db.query(Summary).order_by(Summary.created_at.desc()).all()
+
+    history = []
+
+    for item in summaries:
+        history.append({
+            "id": item.id,
+            "filename": item.filename,
+            "summary": item.summary,
+            "word_count": item.word_count,
+            "character_count": item.character_count,
+            "page_count": item.page_count,
+            "created_at": item.created_at
+        })
+
+    db.close()
+
+    return history
+
+
+@app.delete("/history/{summary_id}")
+def delete_summary(summary_id: int):
+    db = SessionLocal()
+
+    summary = db.query(Summary).filter(Summary.id == summary_id).first()
+
+    if not summary:
+        db.close()
+        raise HTTPException(status_code=404, detail="Summary not found")
+
+    db.delete(summary)
+    db.commit()
+    db.close()
+
+    return JSONResponse(
+        content={"message": "Summary deleted successfully"}
+    )
+ 
     

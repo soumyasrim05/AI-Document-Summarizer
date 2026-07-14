@@ -32,10 +32,12 @@ function App() {
     body: formData,
   });
 
-   const data = await response.json();
+  const data = await response.json();
 
-   setSummary(data.summary);
-   setDocInfo(data);
+  console.log(data);
+
+  setSummary(data.summary);
+  setDocInfo(data);
 
 } catch (error) {
   console.error(error);
