@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 function History({ onSelectSummary }) {
   const [history, setHistory] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/history")
@@ -42,11 +43,22 @@ function History({ onSelectSummary }) {
   return (
     <div className="history-box">
       <h2>📚 Previous Summaries</h2>
+      <input
+       type="text"
+       placeholder="🔍 Search summaries..."
+       value={searchTerm}
+       onChange={(e) => setSearchTerm(e.target.value)}
+       className="search-input"
+     />
 
       {history.length === 0 ? (
         <p>No summaries yet.</p>
       ) : (
-        history.map((item) => (
+        history
+         .filter((item) =>
+         item.filename.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .map((item) => (
   <div key={item.id} className="history-item">
 
     <div
