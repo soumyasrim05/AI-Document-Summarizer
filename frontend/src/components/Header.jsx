@@ -1,12 +1,25 @@
+import "./Header.css";
+
 function Header() {
   return (
-    <header>
-      <h1>AI Document Summarizer</h1>
+    <header className="hero">
+
+      <div className="hero-title">
+
+        <span className="hero-icon">
+         🤖
+        </span>
+
+        <h1>
+          AI Document Summarizer
+        </h1>
+
+      </div>
 
       <p>
-        Upload your PDF or DOCX file and let AI generate
-        a concise summary in seconds.
+        Transform lengthy documents into clear, concise insights in seconds.
       </p>
+
     </header>
   );
 }

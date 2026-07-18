@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
+import "./History.css";
+import { useState } from "react";
+function History({ history, setHistory, onSelectSummary }) {
+  
+const [searchTerm, setSearchTerm] = useState("");
 
-function History({ onSelectSummary }) {
-  const [history, setHistory] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    fetch("http://127.0.0.1:8000/history")
-      .then((response) => response.json())
-      .then((data) => setHistory(data))
-      .catch((error) => console.error(error));
-  }, []);
 
 
   const handleDelete = async (id) => {
@@ -61,16 +55,16 @@ function History({ onSelectSummary }) {
         .map((item) => (
   <div key={item.id} className="history-item">
 
-    <div
-      className="history-content"
-      onClick={() => onSelectSummary(item)}
-    >
-      <strong>{item.filename}</strong>
+   <div
+  className="history-content"
+  onClick={() => onSelectSummary(item)}
+>
+  <h4>{item.filename}</h4>
 
-      <br />
-
-      {new Date(item.created_at).toLocaleString()}
-    </div>
+  <p>
+    {new Date(item.created_at).toLocaleString()}
+  </p>
+</div>
 
     <button
       className="delete-btn"

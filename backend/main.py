@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Form
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from docx import Document
@@ -56,7 +56,10 @@ def home():
 
 
 @app.post("/summarize")
-async def summarize(file: UploadFile = File(...)):
+async def summarize(
+    file: UploadFile = File(...),
+    summary_length: str = Form("medium")
+):
     # Read uploaded file into memory
     file_bytes = await file.read()
 
@@ -86,6 +89,19 @@ async def summarize(file: UploadFile = File(...)):
     )
 
 
+    if summary_length == "short":
+        max_length = 80
+        min_length = 20
+
+    elif summary_length == "detailed":
+        max_length = 180
+        min_length = 60
+
+    else:
+        max_length = 120
+        min_length = 30
+
+
     
     # Split document into chunks
     chunks = split_text(text)
@@ -94,11 +110,12 @@ async def summarize(file: UploadFile = File(...)):
 
     for chunk in chunks:
       result = summarizer(
-        chunk,
-        max_length=120,
-        min_length=30,
-        do_sample=False
+      chunk,
+      max_length=max_length,
+      min_length=min_length,
+      do_sample=False
     )
+
 
     summaries.append(result[0]["summary_text"])
 
@@ -107,11 +124,11 @@ async def summarize(file: UploadFile = File(...)):
       combined = " ".join(summaries)
 
       result = summarizer(
-        combined,
-        max_length=150,
-        min_length=50,
-        do_sample=False
-    )
+       combined,
+       max_length=max_length,
+       min_length=min_length,
+       do_sample=False
+      )
 
       final_summary = result[0]["summary_text"]
     

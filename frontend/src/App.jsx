@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 import Header from "./components/Header";
@@ -7,13 +7,30 @@ import SummaryBox from "./components/SummaryBox";
 import History from "./components/History";
 
 function App() {
-
   const [selectedFile, setSelectedFile] = useState(null);
+  const [summaryLength, setSummaryLength] = useState("medium");
   const [summary, setSummary] = useState("");
   const [docInfo, setDocInfo] = useState(null);
   const [loading, setLoading] = useState(false);
-  
+  const [history, setHistory] = useState([]);
 
+  // Fetch history from backend
+  const fetchHistory = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/history");
+      const data = await response.json();
+      setHistory(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Load history when app starts
+  useEffect(() => {
+    fetchHistory();
+  }, []);
+
+  // Generate Summary
   const handleGenerate = async () => {
     if (!selectedFile) {
       alert("Please choose a document first.");
@@ -24,80 +41,115 @@ function App() {
     setSummary("");
 
     const formData = new FormData();
+
     formData.append("file", selectedFile);
 
-  try {
-   const response = await fetch("http://127.0.0.1:8000/summarize", {
-    method: "POST",
-    body: formData,
-  });
+    formData.append(
+     "summary_length",
+      summaryLength
+    );
 
-  const data = await response.json();
 
-  console.log(data);
+    try {
+      const response = await fetch("http://127.0.0.1:8000/summarize", {
+        method: "POST",
+        body: formData,
+      });
 
-  setSummary(data.summary);
-  setDocInfo(data);
+      if (!response.ok) {
+       throw new Error("Failed to summarize.");
+      }
+      const data = await response.json();
 
-} catch (error) {
-  console.error(error);
-  alert("❌ Failed to upload the file.");
-} finally {
-  setLoading(false);
-}
+      setSummary(data.summary);
+      setDocInfo(data);
 
+      // Refresh history after saving
+      await fetchHistory();
+
+    } catch (error) {
+      console.error(error);
+      alert("❌ Failed to upload the file.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  // Load summary from history
   const handleHistorySelect = (item) => {
-   setSummary(item.summary);
+    setSummary(item.summary);
 
-   setDocInfo({
-    filename: item.filename,
-    word_count: item.word_count,
-    character_count: item.character_count,
-    page_count: item.page_count,
-  });
-};
+    setDocInfo({
+      filename: item.filename,
+      word_count: item.word_count,
+      character_count: item.character_count,
+      page_count: item.page_count,
+    });
+  };
 
-  return (
-    <div className="container">
+return (
 
-      <Header />
+<div className="app">
 
-      <UploadBox
-        selectedFile={selectedFile}
-        setSelectedFile={setSelectedFile}
-      />
+    <Header />
 
-    <button
-     className="generate-btn"
-     onClick={handleGenerate}
-     disabled={loading}
->
-     {loading ? "Generating Summary..." : "Generate Summary"}
-   </button>
+    <div className="workspace">
 
-{loading && (
-  <div className="loading-container">
-    <div className="spinner"></div>
+        <aside className="sidebar">
 
-    <p className="loading-text">
-      Generating your summary...
-      <br />
-      This may take a few seconds.
-    </p>
-  </div>
-)}
+            <History
+                history={history}
+                setHistory={setHistory}
+                onSelectSummary={handleHistorySelect}
+            />
 
-<SummaryBox
-  summary={summary}
-  docInfo={docInfo}
-  
-/>
+        </aside>
 
-<History onSelectSummary={handleHistorySelect} />
+        <main className="content">
+
+            <UploadBox
+              selectedFile={selectedFile}
+              setSelectedFile={setSelectedFile}
+              summaryLength={summaryLength}
+              setSummaryLength={setSummaryLength}
+            />
+
+            <button
+                className="generate-btn"
+                onClick={handleGenerate}
+                disabled={loading}
+            >
+                {loading
+                    ? "Generating Summary..."
+                    : "Generate Summary"}
+            </button>
+
+            {loading && (
+                <div className="loading-container">
+
+                    <div className="spinner"></div>
+
+                    <p className="loading-text">
+                        Generating your summary...
+                    </p>
+
+                </div>
+            )}
+
+            <SummaryBox
+              summary={summary}
+              docInfo={docInfo}
+              summaryLength={summaryLength}
+          />
+
+        </main>
+
     </div>
-  );
+
+</div>
+
+);
+
 }
 
 export default App;

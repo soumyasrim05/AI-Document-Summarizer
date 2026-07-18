@@ -1,118 +1,290 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f7fb;
-}
+/* ===========================
+   Google Font
+=========================== */
 
-.container {
-  text-align: center;
-  margin-top: 100px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-h1 {
-  font-size: 48px;
-  color: #222;
-}
 
-p {
-  color: #555;
-  font-size: 18px;
-}
+/* ===========================
+   Global Reset
+=========================== */
 
-button {
-  margin-top: 30px;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 10px;
-  background: #4f46e5;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #3730a3;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 
-.loading-text {
-  margin-top: 20px;
-  text-align: center;
-  color: #555;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.6;
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:
+    radial-gradient(
+        circle at top left,
+        rgba(124,92,255,.18),
+        transparent 35%
+    ),
+    linear-gradient(
+        135deg,
+        #0f172a,
+        #111827,
+        #1e1b4b
+    );
+
+    color:white;
+
+    min-height:100vh;
+
 }
 
 
-.summary-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 700px;
-  margin: 0 auto 20px;
+button{
+    font-family:inherit;
 }
 
-.copy-btn {
-  background: #5b4df7;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
+
+/* ===========================
+   App
+=========================== */
+
+.app{
+
+    min-height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
 }
 
-.copy-btn:hover {
-  background: #4638d8;
+
+/* ===========================
+   Header Area
+=========================== */
+
+.hero{
+
+    width:100%;
+
+    padding:35px 40px 25px;
+
 }
 
-.summary-box {
-    width: 700px;
-    margin: 30px auto;
-    text-align: left;
+
+/* ===========================
+   Workspace
+=========================== */
+
+.workspace{
+
+    flex:1;
+
+    display:grid;
+
+    grid-template-columns:300px minmax(0,1fr);
+
+    gap:35px;
+
+    padding:0 40px 40px;
+
+    align-items:start;
+
 }
 
+
+/* ===========================
+   Sidebar
+=========================== */
+
+.sidebar{
+
+    width:100%;
+
+    position:sticky;
+
+    top:20px;
+
+}
+
+
+/* ===========================
+   Main Content
+=========================== */
+
+.content{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    width:100%;
+
+}
+
+
+/* ===========================
+   Generate Button
+=========================== */
+
+.generate-btn{
+
+    display:block;
+
+    margin:30px auto;
+
+    background:linear-gradient(
+        135deg,
+        #7c5cff,
+        #6246ea
+    );
+
+    color:white;
+
+    border:none;
+
+    padding:16px 45px;
+
+    border-radius:16px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+
+    box-shadow:
+    0 8px 25px rgba(124,92,255,.25);
+
+}
+
+
+.generate-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 15px 35px rgba(124,92,255,.45);
+
+}
+
+
+.generate-btn:disabled{
+
+    opacity:.7;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+}
+
+
+/* ===========================
+   Loading
+=========================== */
 
 .loading-container{
-  margin:25px 0;
-  text-align:center;
+
+    text-align:center;
+
+    margin:20px 0 30px;
+
 }
+
 
 .spinner{
-  width:45px;
-  height:45px;
-  margin:0 auto 15px;
 
-  border:5px solid #ddd;
-  border-top:5px solid #5b4bff;
-  border-radius:50%;
+    width:45px;
 
-  animation:spin 1s linear infinite;
+    height:45px;
+
+    border:5px solid rgba(255,255,255,.2);
+
+    border-top:5px solid #7c5cff;
+
+    border-radius:50%;
+
+    margin:auto;
+
+    animation:spin 1s linear infinite;
+
 }
+
 
 @keyframes spin{
-  0%{
-    transform:rotate(0deg);
-  }
 
-  100%{
-    transform:rotate(360deg);
-  }
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
 }
+
 
 .loading-text{
-  color:#555;
-  font-size:16px;
+
+    color:#b7bdd1;
+
+    margin-top:15px;
+
+    font-size:16px;
+
 }
 
-.history-item {
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 8px;
-  transition: background-color 0.2s ease;
+
+/* ===========================
+   Responsive Design
+=========================== */
+
+@media(max-width:1000px){
+
+    .workspace{
+
+        grid-template-columns:1fr;
+
+        padding:0 25px 30px;
+
+    }
+
+
+    .sidebar{
+
+        position:relative;
+
+    }
+
 }
 
-.history-item:hover {
-  background-color: #f0f0f0;
+
+@media(max-width:600px){
+
+    .hero{
+
+        padding:25px;
+
+    }
+
+
+    .workspace{
+
+        padding:0 15px 25px;
+
+    }
+
+
+    .generate-btn{
+
+        width:100%;
+
+    }
+
 }

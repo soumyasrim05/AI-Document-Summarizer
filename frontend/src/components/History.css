@@ -1,0 +1,203 @@
+/* ===================================
+   HISTORY PANEL
+=================================== */
+
+.history-box {
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:22px;
+
+    padding:22px;
+
+    backdrop-filter:blur(15px);
+
+    height:calc(100vh - 180px);
+
+    overflow-y:auto;
+
+    scrollbar-width:thin;
+
+}
+
+
+/* Scrollbar */
+
+.history-box::-webkit-scrollbar{
+
+    width:6px;
+
+}
+
+.history-box::-webkit-scrollbar-thumb{
+
+    background:#7c5cff;
+
+    border-radius:10px;
+
+}
+
+
+/* Heading */
+
+.history-box h2{
+
+    color:white;
+
+    font-size:23px;
+
+    font-weight:600;
+
+    margin-bottom:22px;
+
+}
+
+
+/* Search */
+
+.search-input{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    font-size:15px;
+
+    margin-bottom:22px;
+
+}
+
+
+.search-input:focus{
+
+    border:1px solid #7c5cff;
+
+}
+
+
+.search-input::placeholder{
+
+    color:#94a3b8;
+
+}
+
+
+/* History cards */
+
+.history-item{
+
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.05);
+
+    border-radius:16px;
+
+    padding:16px;
+
+    margin-bottom:16px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    transition:.25s ease;
+
+}
+
+
+.history-item:hover{
+
+    background:rgba(124,92,255,.18);
+
+    border-color:rgba(124,92,255,.4);
+
+    transform:translateY(-3px);
+
+}
+
+
+/* Content */
+
+.history-content{
+
+    flex:1;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+}
+
+
+.history-content h4{
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    margin-bottom:7px;
+
+    word-break:break-word;
+
+    line-height:1.4;
+
+}
+
+
+.history-content p{
+
+    color:#94a3b8;
+
+    font-size:12px;
+
+}
+
+
+/* Delete */
+
+.delete-btn{
+
+    width:36px;
+
+    height:36px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:rgba(239,68,68,.85);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    margin-left:10px;
+
+}
+
+
+.delete-btn:hover{
+
+    background:#ef4444;
+
+    transform:scale(1.08);
+
+}

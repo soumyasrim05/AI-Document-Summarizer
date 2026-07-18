@@ -1,0 +1,227 @@
+.summary-card {
+
+    width:100%;
+    max-width:760px;
+
+    margin:35px auto 0;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    padding:35px;
+
+    backdrop-filter:blur(15px);
+
+    transition:.3s ease;
+}
+
+
+.summary-card:hover {
+
+    border-color:#7c5cff;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 12px 35px rgba(124,92,255,.18);
+
+}
+
+
+/* Header section */
+
+.summary-top {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+
+.summary-top h2 {
+
+    color:#ffffff;
+
+    font-size:30px;
+
+    font-weight:600;
+
+    margin:0;
+
+}
+
+
+/* Buttons */
+
+.action-buttons {
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+
+.action-buttons button {
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+.copy-btn {
+
+    background:#7c5cff;
+
+    color:white;
+
+}
+
+
+.download-btn {
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+}
+
+
+.action-buttons button:hover {
+
+    transform:translateY(-2px);
+
+}
+
+
+/* Document details */
+
+.document-info {
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+
+.info-item {
+
+    background:rgba(255,255,255,.06);
+
+    padding:15px;
+
+    border-radius:14px;
+
+}
+
+
+.info-item strong {
+
+    display:block;
+
+    color:#b7bdd1;
+
+    font-size:14px;
+
+    margin-bottom:6px;
+
+}
+
+
+.info-item span {
+
+    color:white;
+
+    font-size:15px;
+
+    word-break:break-word;
+
+}
+
+
+/* Summary text area */
+
+.summary-content {
+
+    background:rgba(0,0,0,.15);
+
+    border-radius:16px;
+
+    padding:22px;
+
+    min-height:150px;
+
+}
+
+
+.summary-content p {
+
+    color:#e4e7f5;
+
+    font-size:17px;
+
+    line-height:1.7;
+
+    margin:0;
+
+}
+
+
+/* ===========================
+   Formatted Summary
+=========================== */
+
+
+.summary-heading{
+
+    color:white;
+
+    font-size:20px;
+
+    margin-bottom:18px;
+
+}
+
+
+.summary-list{
+
+    padding-left:25px;
+
+}
+
+
+.summary-list li{
+
+    color:#d1d5db;
+
+    font-size:16px;
+
+    line-height:1.8;
+
+    margin-bottom:12px;
+
+}

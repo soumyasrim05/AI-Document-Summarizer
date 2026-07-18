@@ -21,3 +21,9 @@ node_modules/
 
 # Logs
 *.log
+
+# Build files
+dist/
+
+# Database files
+*.db
