@@ -92,6 +92,8 @@ async def summarize(
       for page in pdf:
         text += page.get_text()
 
+      print("Extracted text length:", len(text))
+
     else:
      raise HTTPException(
         status_code=400,
