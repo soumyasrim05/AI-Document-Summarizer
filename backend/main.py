@@ -23,7 +23,7 @@ app.add_middleware(
 )
 
 
-MODEL_NAME = "sshleifer/distilbart-cnn-12-6"
+MODEL_NAME = "t5-small"
 
 summarizer = None
 
