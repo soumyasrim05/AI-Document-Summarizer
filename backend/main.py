@@ -125,9 +125,16 @@ async def summarize(
     )
 
 
-    summaries.append(result[0]["summary_text"])
+      summaries.append(result[0]["summary_text"])
 
    # Summarize the summaries again if needed
+
+    if not summaries:
+     raise HTTPException(
+        status_code=400,
+        detail="Could not extract text from document."
+    )
+
     if len(summaries) > 1:
       combined = " ".join(summaries)
 
