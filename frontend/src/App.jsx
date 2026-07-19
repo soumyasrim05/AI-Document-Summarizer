@@ -52,6 +52,7 @@ function App() {
 
     try {
       const response = await fetch("https://ai-document-summarizer-api.onrender.com/summarize", {
+  
         method: "POST",
         body: formData,
       });

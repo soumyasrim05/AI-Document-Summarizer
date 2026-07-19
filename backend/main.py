@@ -29,11 +29,15 @@ summarizer = None
 
 def get_summarizer():
     global summarizer
+
     if summarizer is None:
         summarizer = pipeline(
-            "summarization",
-            model=MODEL_NAME
+            task="summarization",
+            model=MODEL_NAME,
+            framework="pt",
+            device=-1,
         )
+
     return summarizer
 
 def split_text(text, max_chunk_size=1000):
