@@ -25,10 +25,16 @@ app.add_middleware(
 
 MODEL_NAME = "sshleifer/distilbart-cnn-12-6"
 
-summarizer = pipeline(
-    "summarization",
-    model=MODEL_NAME
-)
+summarizer = None
+
+def get_summarizer():
+    global summarizer
+    if summarizer is None:
+        summarizer = pipeline(
+            "summarization",
+            model=MODEL_NAME
+        )
+    return summarizer
 
 def split_text(text, max_chunk_size=1000):
     """
@@ -109,7 +115,7 @@ async def summarize(
     summaries = []
 
     for chunk in chunks:
-      result = summarizer(
+      result = get_summarizer()(
       chunk,
       max_length=max_length,
       min_length=min_length,
@@ -123,7 +129,7 @@ async def summarize(
     if len(summaries) > 1:
       combined = " ".join(summaries)
 
-      result = summarizer(
+      result = get_summarizer()(
        combined,
        max_length=max_length,
        min_length=min_length,
