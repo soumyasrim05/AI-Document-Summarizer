@@ -85,7 +85,7 @@ button{
 
     grid-template-columns:300px minmax(0,1fr);
 
-    gap:35px;
+    gap:25px;
 
     padding:0 40px 40px;
 
@@ -118,8 +118,6 @@ button{
     display:flex;
 
     flex-direction:column;
-
-    align-items:center;
 
     width:100%;
 
