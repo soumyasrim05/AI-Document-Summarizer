@@ -1,18 +1,21 @@
 # 📄 AI Document Summarizer
 
-An AI-powered web application that summarizes PDF and DOCX documents using **React** and **FastAPI**.
+An AI-powered document summarization application that extracts text from PDF and DOCX files and generates concise summaries using NLP models.
 
-This project is being built from scratch as a personal learning project to gain hands-on experience in full-stack web development, REST APIs, and AI integration.
+The project was built from scratch to gain hands-on experience in full-stack development, REST APIs, AI integration, and deployment.
 
 ---
 
 ## 🚀 Features
 
 - 📄 Upload PDF and DOCX documents
-- 📁 Select files from your computer
-- 🔗 React frontend connected to FastAPI backend
-- 📝 AI-powered document summarization *(Coming Soon)*
-- 📖 Text extraction from uploaded documents *(Coming Soon)*
+- 🔍 Extract text from uploaded documents
+- 🤖 Generate AI-powered summaries using NLP models
+- 🎚️ Choose summary length
+- 📊 Display document information
+- ⬇️ Download generated summaries
+- 🌐 Deployed Streamlit version for live demo
+- ⚛️ React frontend with FastAPI backend architecture
 
 ---
 
@@ -35,6 +38,14 @@ This project is being built from scratch as a personal learning project to gain 
 - GitHub
 - VS Code
 
+### AI / NLP
+- Hugging Face Transformers
+- PyTorch
+- T5-small model
+
+### Deployment
+- Streamlit Cloud
+
 ---
 
 ## 📂 Project Structure
@@ -49,42 +60,26 @@ AI-DOC-SUMMARIZER
 │
 ├── backend
 │   ├── main.py
-│   └── venv
+│   ├── database.py
+│   └── models.py
+│
+├── streamlit-app
+│   ├── app.py
+│   └── requirements.txt
 │
 ├── .gitignore
 └── README.md
-```
-
 ---
+## ✅ Completed
 
-## 📌 Current Progress
-
-### ✅ Completed
-
-- Project setup
-- Git & GitHub integration
-- React + Vite setup
-- FastAPI backend setup
-- React components
-- Frontend ↔ Backend communication
-- File selection using React
-- React State (`useState`)
-- Props
-- Lifting State Up
-- Professional Git workflow
-
-### 🚧 In Progress
-
-- Upload files to FastAPI
-
-### 🔜 Coming Soon
-
-- Extract text from PDF
-- Extract text from DOCX
-- AI summarization
-- Download summary
-- Responsive improvements
-- Project deployment
+- React + Vite frontend development
+- FastAPI backend development
+- PDF and DOCX text extraction
+- AI-based document summarization
+- Summary length selection
+- Summary download functionality
+- Document history management
+- Streamlit deployment for live demo
 
 ---
 
@@ -112,7 +107,15 @@ pip install fastapi uvicorn
 uvicorn main:app --reload
 ```
 
----
+### Streamlit Version
+
+```bash
+cd streamlit-app
+
+pip install -r requirements.txt
+
+streamlit run app.py
+
 
 ## 🎯 Project Goal
 
@@ -128,7 +131,12 @@ Built with ❤️ while learning Full Stack Development.
 
 
 
-## Live Demo
+## 🌐 Live Demo
 
-🚀 Try the app here:
-https://ai-document-summarizer-05.streamlit.app
+A lightweight deployed version of the summarizer is available here:
+
+https://ai-document-summarizer-05.streamlit.app/
+
+## 💻 Original Application
+
+The full-stack version was built using React + FastAPI with a custom dashboard interface.
