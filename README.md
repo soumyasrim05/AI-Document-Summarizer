@@ -125,3 +125,10 @@ The goal of this project is to build a complete AI-powered document summarizatio
 **Soumya Sri Masani**
 
 Built with ❤️ while learning Full Stack Development.
+
+
+
+## Live Demo
+
+🚀 Try the app here:
+https://ai-document-summarizer-05.streamlit.app
