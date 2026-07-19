@@ -15,7 +15,7 @@ const [searchTerm, setSearchTerm] = useState("");
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/history/${id}`,
+      `https://ai-document-summarizer-api.onrender.com/history/${id}`,
       {
         method: "DELETE",
       }

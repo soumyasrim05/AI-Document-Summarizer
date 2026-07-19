@@ -17,7 +17,7 @@ function App() {
   // Fetch history from backend
   const fetchHistory = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/history");
+      const response = await fetch("https://ai-document-summarizer-api.onrender.com/history");
       const data = await response.json();
       setHistory(data);
     } catch (error) {
@@ -51,7 +51,7 @@ function App() {
 
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/summarize", {
+      const response = await fetch("https://ai-document-summarizer-api.onrender.com/summarize", {
         method: "POST",
         body: formData,
       });
