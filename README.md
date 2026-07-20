@@ -19,6 +19,35 @@ The project was built from scratch to gain hands-on experience in full-stack dev
 
 ---
 
+## 📸 Screenshots
+
+Below are screenshots of the React-based application interface.
+
+### 1. Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+### 2. Upload Section
+
+![Upload Section](screenshots/upload-section.png)
+
+---
+
+### 3. Document Preview
+
+![Document Preview](screenshots/upload-preview.png)
+
+---
+
+### 4. AI-Generated Summary
+
+![Generated Summary](screenshots/summary-generated.png)
+
+
+---
+
 ## 🛠️ Tech Stack
 
 ### Frontend
@@ -69,6 +98,8 @@ AI-DOC-SUMMARIZER
 │
 ├── .gitignore
 └── README.md
+```
+
 ---
 ## ✅ Completed
 
@@ -115,7 +146,7 @@ cd streamlit-app
 pip install -r requirements.txt
 
 streamlit run app.py
-
+```
 
 ## 🎯 Project Goal
 
@@ -129,14 +160,16 @@ The goal of this project is to build a complete AI-powered document summarizatio
 
 Built with ❤️ while learning Full Stack Development.
 
-
+---
 
 ## 🌐 Live Demo
 
-A lightweight deployed version of the summarizer is available here:
+**Try the live application here:**
 
-https://ai-document-summarizer-05.streamlit.app/
+🔗 https://ai-document-summarizer-05.streamlit.app/
+
+---
 
 ## 💻 Original Application
 
-The full-stack version was built using React + FastAPI with a custom dashboard interface.
+The original application was developed using a React frontend and FastAPI backend, featuring a custom dashboard with document upload, preview, summary generation, download, and history management.

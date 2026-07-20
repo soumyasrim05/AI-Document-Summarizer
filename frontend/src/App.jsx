@@ -17,7 +17,7 @@ function App() {
   // Fetch history from backend
   const fetchHistory = async () => {
     try {
-      const response = await fetch("https://ai-document-summarizer-api.onrender.com/history");
+      const response = await fetch("http://127.0.0.1:8000/history");
       const data = await response.json();
       setHistory(data);
     } catch (error) {
@@ -51,14 +51,16 @@ function App() {
 
 
     try {
-      const response = await fetch("https://ai-document-summarizer-api.onrender.com/summarize", {
+      const response = await fetch("http://127.0.0.1:8000/summarize", {
   
         method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-       throw new Error("Failed to summarize.");
+        const errorData = await response.json();
+        console.log(errorData);
+        throw new Error(errorData.detail || "Failed to summarize.");
       }
       const data = await response.json();
 
