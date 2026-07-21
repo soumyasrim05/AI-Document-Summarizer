@@ -11,6 +11,7 @@ from database import engine
 from models import Base
 from database import SessionLocal, get_db
 from models import Summary
+from schemas import SummaryResponse, HistoryResponse
 
 
 Base.metadata.create_all(bind=engine)
@@ -69,7 +70,7 @@ def home():
     return {"message": "Backend is running!"}
 
 
-@app.post("/summarize")
+@app.post("/summarize", response_model=SummaryResponse)
 async def summarize(
     file: UploadFile = File(...),
     summary_length: str = Form("medium"),
@@ -197,7 +198,7 @@ async def summarize(
 
 
 
-@app.get("/history")
+@app.get("/history", response_model=list[HistoryResponse])
 def get_history(db: Session = Depends(get_db)):
 
     summaries = db.query(Summary).order_by(Summary.created_at.desc()).all()
