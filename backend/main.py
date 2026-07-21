@@ -1,13 +1,15 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Form
+from fastapi import FastAPI, UploadFile, File, HTTPException, Form, Depends
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from docx import Document
 from io import BytesIO
 from transformers import pipeline
 import fitz
+
+from sqlalchemy.orm import Session
 from database import engine
 from models import Base
-from database import SessionLocal
+from database import SessionLocal, get_db
 from models import Summary
 
 
@@ -70,7 +72,8 @@ def home():
 @app.post("/summarize")
 async def summarize(
     file: UploadFile = File(...),
-    summary_length: str = Form("medium")
+    summary_length: str = Form("medium"),
+    db: Session = Depends(get_db)
 ):
     # Read uploaded file into memory
     file_bytes = await file.read()
@@ -169,8 +172,6 @@ async def summarize(
 
     file_size = len(file_bytes)
 
-    db = SessionLocal()
-
     new_summary = Summary(
     filename=file.filename,
     summary=final_summary,
@@ -181,7 +182,6 @@ async def summarize(
 
     db.add(new_summary)
     db.commit()
-    db.close()
 
 
     return {
@@ -198,8 +198,7 @@ async def summarize(
 
 
 @app.get("/history")
-def get_history():
-    db = SessionLocal()
+def get_history(db: Session = Depends(get_db)):
 
     summaries = db.query(Summary).order_by(Summary.created_at.desc()).all()
 
@@ -216,24 +215,22 @@ def get_history():
             "created_at": item.created_at
         })
 
-    db.close()
-
     return history
 
 
 @app.delete("/history/{summary_id}")
-def delete_summary(summary_id: int):
-    db = SessionLocal()
+def delete_summary(
+    summary_id: int,
+    db: Session = Depends(get_db)
+):
 
     summary = db.query(Summary).filter(Summary.id == summary_id).first()
 
     if not summary:
-        db.close()
         raise HTTPException(status_code=404, detail="Summary not found")
 
     db.delete(summary)
     db.commit()
-    db.close()
 
     return JSONResponse(
         content={"message": "Summary deleted successfully"}
