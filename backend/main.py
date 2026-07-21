@@ -25,6 +25,8 @@ app.add_middleware(
 
 MODEL_NAME = "t5-small"
 
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+
 summarizer = None
 
 def get_summarizer():
@@ -72,6 +74,12 @@ async def summarize(
 ):
     # Read uploaded file into memory
     file_bytes = await file.read()
+
+    if len(file_bytes) > MAX_FILE_SIZE:
+        raise HTTPException(
+            status_code=400,
+            detail="File size exceeds 10 MB limit."
+        )
 
     # Extract text based on file type
     if file.filename.lower().endswith(".docx"):
