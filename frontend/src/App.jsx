@@ -6,6 +6,8 @@ import UploadBox from "./components/UploadBox";
 import SummaryBox from "./components/SummaryBox";
 import History from "./components/History";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [summaryLength, setSummaryLength] = useState("medium");
@@ -17,7 +19,7 @@ function App() {
   // Fetch history from backend
   const fetchHistory = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/history");
+      const response = await fetch(`${API_URL}/history`);
       const data = await response.json();
       setHistory(data);
     } catch (error) {
@@ -51,7 +53,7 @@ function App() {
 
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/summarize", {
+      const response = await fetch(`${API_URL}/summarize`, {
   
         method: "POST",
         body: formData,

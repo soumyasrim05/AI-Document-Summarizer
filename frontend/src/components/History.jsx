@@ -1,5 +1,8 @@
 import "./History.css";
 import { useState } from "react";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 function History({ history, setHistory, onSelectSummary }) {
   
 const [searchTerm, setSearchTerm] = useState("");
@@ -14,7 +17,7 @@ const [searchTerm, setSearchTerm] = useState("");
   if (!confirmDelete) return;
 
   try {
-    const response = await fetch(`http://127.0.0.1:8000/history/${id}`, {
+    const response = await fetch(`${API_URL}/history/${id}`, {
     method: "DELETE"
 }
     );
